@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-azyrite-blue: var(--color-blue-500);
+
+  /* TfNSW Colors */
+  --color-metro-m1: rgb(22, 131, 136);
+  --color-train-t1: rgb(249, 157, 28);
+  --color-train-t2: rgb(0, 152, 205);
+  --color-train-t3: rgb(243, 112, 33);
+  --color-train-t4: rgb(0, 90, 163);
+  --color-train-t5: rgb(196, 37, 143);
+  --color-train-t7: rgb(111, 129, 142);
+  --color-train-t8: rgb(0, 149, 76);
+  --color-train-t9: rgb(209, 31, 47);
+  --color-intercity-bmt: rgb(249, 157, 28);
+  --color-intercity-ccn: rgb(209, 31, 47);
+  --color-intercity-hun: rgb(131, 49, 52);
+  --color-intercity-sco: rgb(0, 90, 163);
+  --color-intercity-shl: rgb(0, 149, 76);
+  --color-regional-trains: rgb(246, 137, 31);
+  --color-regional-coaches: rgb(115, 42, 130);
+  --color-ferry-f1: rgb(0, 119, 75);
+  --color-ferry-f2: rgb(20, 71, 52);
+  --color-ferry-f3: rgb(100, 140, 60);
+  --color-ferry-f4: rgb(191, 215, 48);
+  --color-ferry-f5: rgb(40, 97, 66);
+  --color-ferry-f6y: rgb(0, 171, 81);
+  --color-ferry-f7: rgb(0, 177, 137);
+  --color-ferry-f8d: rgb(85, 98, 43);
+  --color-ferry-f9: rgb(101, 179, 46);
+  --color-ferry-f10: rgb(90, 176, 49);
+  --color-ferry-stockton: rgb(90, 176, 49);
+  --color-light-rail-l1: rgb(190, 22, 34);
+  --color-light-rail-l2: rgb(221, 30, 37);
+  --color-light-rail-l3: rgb(120, 17, 64);
+  --color-light-rail-nlr: rgb(238, 52, 63);
+}

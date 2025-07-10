@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+// Get posts sorted by recency
+const posts = (await getCollection("posts")).sort(
+  (posta, postb) =>
+    postb.data.published.getTime() - posta.data.published.getTime()
+);
+---
+
+<Layout title="Posts">
+  <div class="prose">
+    The following is a list of posts sorted by recency.
+    <ul>
+      {
+        posts.map((post) => (
+          <li>
+            <a href={`/posts/${post.id}`}>{post.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Layout>

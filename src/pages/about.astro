@@ -1,0 +1,80 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Image from "astro/components/Image.astro";
+
+import bskyLogo from "@/assets/bsky_logo.svg";
+---
+
+<Layout title="About">
+  <div class="prose">
+    <h1>About this site</h1>
+    <p>
+      Welcome to my little corner of the internet where I occasionally put up
+      random railway-related photos and posts, mostly from my home state of NSW.
+    </p>
+    <h2>Technical details</h2>
+    <p>
+      This is a dead-simple, mostly statically generated site leveraging <a
+        href="https://astro.build"
+        target="_blank">{Astro.generator}</a
+      >. There is honestly not much else to it technically. I might put it up on
+      GitHub some day but the code is pretty ugly.
+    </p>
+    <p>
+      TailwindCSS is used for styling because I can't actually write CSS
+      anymore.
+    </p>
+    <h2>A note on photos</h2>
+    <p>
+      Images are presented in JPEG format, but may have been compressed. An
+      original image link should be provided to download the highest available
+      resolution image.
+    </p>
+    <p>
+      Some care has been taken to preserve any EXIF data attached to the images
+      particularly of those images captured on a phone (which usually contains
+      useful geolocation data). However, this is not guaranteed, especially with
+      edited photos.
+    </p>
+    <p>
+      If you are after the raw photos, I might have them lying around somewhere.
+      Send me an email and I'll try my best to get back to you.
+    </p>
+    <h1>Attributions</h1>
+    <p>
+      Much of the inspiration for this website including its general layout,
+      theming and style was taken from <a
+        href="https://railgallery.wongm.com/"
+        target="_blank">Wongm's Rail Gallery</a
+      >. Go check out his site, there's a lot more there!
+    </p>
+    <p>
+      All photographs and posts are my own unless otherwise indicated. If you
+      would like to use these photos for your own purposes please send me an
+      email beforehand. I'd love to see what you do with them!
+    </p>
+    <h1>Contact</h1>
+    <p>You can find me on social media:</p>
+    <ul>
+      <li>
+        <a
+          href="https://bsky.app/profile/azyrite.bsky.social"
+          class="inline-flex gap-2 items-center text-[#1185fe] not-prose"
+        >
+          <Image
+            src={bskyLogo}
+            alt="Bluesky logo"
+            class="w-5"
+            loading="eager"
+          />
+          <span class="block">azyrite.bsky.social</span>
+        </a>
+      </li>
+    </ul>
+    <p>
+      Or email me: <a href="mailto:azyrite-railblog@astrial.org"
+        >azyrite-railblog@astrial.org</a
+      >
+    </p>
+  </div>
+</Layout>
