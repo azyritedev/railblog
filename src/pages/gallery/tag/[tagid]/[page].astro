@@ -30,7 +30,7 @@ type PhotoEntry = CollectionEntry<"photos">;
   <h1 class="text-xl font-bold">
     Viewing <Tag class="inline-block" tag={params.tagid} /> tag
   </h1>
-  <p>Page {page.currentPage} of {page.total}</p>
+  <p>Page {page.currentPage} of {page.lastPage}</p>
   <div class="grid gap-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-4">
     {
       page.data.map((photo: PhotoEntry) => {
