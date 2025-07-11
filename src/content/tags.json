@@ -39,6 +39,9 @@
   "endeavour-set": {
     "description": "Regional and intercity diesel multiple unit Endeavour trains, similar to Xplorers. AKA N sets"
   },
+  "xpt-set": {
+    "description": "Regional eXpress Passenger Trains, hauled rather than being multiple units"
+  },
   "tiv": {
     "description": "The Track Inspection Vehicle"
   },
