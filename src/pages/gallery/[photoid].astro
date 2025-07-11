@@ -29,6 +29,7 @@ const { photo } = Astro.props;
         src={images[photo.data.key]!()}
         formats={["jpg", "webp"]}
         loading="eager"
+        layout="full-width"
       />
     </div>
     <div>
