@@ -20,6 +20,11 @@ tags.sort((tagA, tagB) => {
 
   return tagBCount - tagACount;
 });
+
+const groups = new Set<string>();
+for (const tag of tags) {
+  groups.add(tag.data.group);
+}
 ---
 
 <Layout title="Photo Gallery">
@@ -27,7 +32,7 @@ tags.sort((tagA, tagB) => {
     <h1>Photo Gallery</h1>
     <p>
       <b>A quick organisational note:</b> Photos are grouped with tags; a photo may
-      have multiple tags so may appear in multiple places. There are no "albums"
+      have multiple tags so may appear in multiple places. There are no "albums".
     </p>
     <p>
       I have tried to give a detailed description for each photo, although these
@@ -37,10 +42,37 @@ tags.sort((tagA, tagB) => {
       There are a total of <b>{photos.length}</b> unique photos in the gallery. More
       on the way!
     </p>
-    <h2>By Tags</h2>
+    <p><i>Click on any tag below to go to its page and view its photos.</i></p>
   </div>
   <div class="mt-4">
-    <div class="flex flex-col gap-2">
+    <h2 class="text-xl font-bold">Grouped Tags</h2>
+    <p class="text-sm">
+      Tags by their groups. For tag descriptions see <a
+        href="#all"
+        class="underline">All Tags</a
+      >.
+    </p>
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-3 xl:grid-cols-4 mt-2">
+      {
+        Array.from(groups).map((g) => (
+          <div class="p-2 border">
+            <h3 class="text-lg font-bold mb-1">{g}</h3>
+            <div class="flex flex-wrap gap-2">
+              {tags
+                .filter((t) => t.data.group === g)
+                .map((t) => (
+                  <Tag tag={t.id} />
+                ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <div class="mt-4">
+    <h2 class="text-xl font-bold" id="all">All Tags</h2>
+    <p class="text-sm">All tags listed by photo count, descending</p>
+    <div class="flex flex-col gap-2 mt-2">
       {
         tags.map((t) => (
           <div class="flex items-center gap-2">

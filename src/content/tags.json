@@ -1,53 +1,68 @@
 {
   "freight": {
-    "description": "Trains carrying goods rather than pax"
+    "description": "Trains carrying goods rather than pax",
+    "group": "Train Set"
   },
   "railfirst": {
-    "description": "RailFirst-branded locomotives"
+    "description": "RailFirst-branded locomotives",
+    "group": "Freight Operators"
   },
   "ccn": {
     "description": "Passenger services on the Central Coast & Newcastle line",
-    "themeColor": "bg-intercity-ccn"
+    "themeColor": "bg-intercity-ccn",
+    "group": "Train Lines"
   },
   "shl": {
     "description": "Passenger services on the Southern Highlands line",
-    "themeColor": "bg-intercity-shl"
+    "themeColor": "bg-intercity-shl",
+    "group": "Train Lines"
   },
   "t9": {
     "description": "Passenger services on the T9 Northern line",
-    "themeColor": "bg-train-t9"
+    "themeColor": "bg-train-t9",
+    "group": "Train Lines"
   },
   "regional": {
     "description": "Regional and long-distance train services",
-    "themeColor": "bg-regional-trains"
+    "themeColor": "bg-regional-trains",
+    "group": "Train Lines"
   },
   "t3": {
     "description": "Passenger services on the T3 Liverpool & Inner West line",
-    "themeColor": "bg-train-t3"
+    "themeColor": "bg-train-t3",
+    "group": "Train Lines"
   },
   "v-set": {
-    "description": "Older intercity electric multiple units now retired from the SCO and CCN lines"
+    "description": "Older intercity electric multiple units now retired from the SCO and CCN lines",
+    "group": "Train Set"
   },
   "t-set": {
-    "description": "Suburban electric multiple unit 'Tangara' trains including ex-intercity G sets"
+    "description": "Suburban electric multiple unit 'Tangara' trains including ex-intercity G sets",
+    "group": "Train Set"
   },
   "m-set": {
-    "description": "Suburban electric multiple units 'Millennium' trains"
+    "description": "Suburban electric multiple units 'Millennium' trains",
+    "group": "Train Set"
   },
   "a-set": {
-    "description": "Waratah Series 1 suburban electric multiple units"
+    "description": "Waratah Series 1 suburban electric multiple units",
+    "group": "Train Set"
   },
   "d-set": {
-    "description": "Electric multiple unit intercity 'Mariyung' trains"
+    "description": "Electric multiple unit intercity 'Mariyung' trains",
+    "group": "Train Set"
   },
   "endeavour-set": {
-    "description": "Regional and intercity diesel multiple unit Endeavour trains, similar to Xplorers. AKA N sets"
+    "description": "Regional and intercity diesel multiple unit Endeavour trains, similar to Xplorers. AKA N sets",
+    "group": "Train Set"
   },
   "xpt-set": {
-    "description": "Regional eXpress Passenger Trains, hauled rather than being multiple units"
+    "description": "Regional eXpress Passenger Trains, hauled rather than being multiple units",
+    "group": "Train Set"
   },
   "tiv": {
-    "description": "The Track Inspection Vehicle"
+    "description": "The Track Inspection Vehicle",
+    "group": "Train Set"
   },
   "infrastructure": {
     "description": "Railway infrastructure and related buildings"

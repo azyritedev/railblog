@@ -37,7 +37,9 @@ const tags = defineCollection({
         // the `color` prefixed css variable for this tag's color
         // e.g. --color-train-t1 would be "train-t1" here.
         themeColor: z.string().optional(),
-        description: z.string()
+        description: z.string(),
+        // optional groupings
+        group: z.string().default("Miscellaneous")
     })
 })
 
