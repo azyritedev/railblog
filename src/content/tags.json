@@ -17,6 +17,10 @@
     "description": "Passenger services on the T9 Northern line",
     "themeColor": "bg-train-t9"
   },
+  "regional": {
+    "description": "Regional and long-distance train services",
+    "themeColor": "bg-regional-trains"
+  },
   "t3": {
     "description": "Passenger services on the T3 Liverpool & Inner West line",
     "themeColor": "bg-train-t3"
