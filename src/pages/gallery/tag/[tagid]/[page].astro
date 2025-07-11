@@ -15,7 +15,7 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
 
     return paginate(filteredPhotos, {
       params: { tagid: t.id },
-      pageSize: 2,
+      pageSize: 16,
     });
   });
 }
@@ -23,7 +23,9 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
 const { page } = Astro.props;
 const params = Astro.params;
 
-const images = import.meta.glob<{ default: ImageMetadata }>("/src/content/photos/*.jpg")
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/content/photos/*.jpg"
+);
 
 type PhotoEntry = CollectionEntry<"photos">;
 ---
@@ -42,7 +44,11 @@ type PhotoEntry = CollectionEntry<"photos">;
       page.data.map((photo: PhotoEntry) => {
         return (
           <div class="bg-gray-300 p-2 flex flex-col gap-2">
-            <Image layout="constrained" src={images[photo.data.key]!()} alt={photo.data.meta.detail} />
+            <Image
+              layout="constrained"
+              src={images[photo.data.key]!()}
+              alt={photo.data.meta.detail}
+            />
             <div>
               <a
                 href={`/gallery/${photo.id}`}
@@ -59,6 +65,26 @@ type PhotoEntry = CollectionEntry<"photos">;
           </div>
         );
       })
+    }
+  </div>
+  <div class="bg-gray-300 p-2 mt-4 flex justify-center gap-2">
+    <div>
+      <span>Page:</span>
+    </div>
+    {
+      new Array(page.lastPage).fill(null).map((_, i) => (
+        <div>
+          {/* No link to the current page */}
+          {i + 1 === page.currentPage ? (
+            <span>{page.currentPage}</span>
+          ) : (
+            <a href={`${i + 1}`} class="underline">
+              {" "}
+              {i + 1}
+            </a>
+          )}
+        </div>
+      ))
     }
   </div>
 </Layout>
