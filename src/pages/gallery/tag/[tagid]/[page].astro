@@ -38,10 +38,14 @@ type PhotoEntry = CollectionEntry<"photos">;
           <div class="bg-gray-300 p-2 flex flex-col gap-2">
             <Image src={photo.data.photo} alt={photo.data.meta.detail} />
             <div>
-              <h2 class="font-bold text-center">{photo.data.meta.title}</h2>
+              <a href={`/gallery/${photo.id}`} class="block hover:underline font-bold text-center">
+                {photo.data.meta.title}
+              </a>
             </div>
             <div class="flex gap-2 justify-center">
-              {photo.data.meta.tags.map(t => <Tag tag={t.id}/>)}
+              {photo.data.meta.tags.map((t) => (
+                <Tag tag={t.id} />
+              ))}
             </div>
           </div>
         );
