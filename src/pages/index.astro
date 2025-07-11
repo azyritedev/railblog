@@ -1,8 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import featuredImage from "../content/photos/16x10_MG_5342.jpg"
+import { Image } from 'astro:assets';
 
 ---
 
 <Layout>
-	nothing here yet...
+	<div class="prose">
+		<h1>Welcome to azyrite's rail blog!</h1>
+		<p>Hello there! Welcome to my rail blog and gallery. <b>This site is still very much a work in progress!</b> If you're looking for the photos, check out the <a href="/gallery">gallery</a>.</p>
+		<hr>
+		<p>Here's a cool image I got recently:</p>
+		<figure>
+			<Image src={featuredImage} alt="The featured image"/>
+			<figcaption>Featured Image — VL 359 passes Wondabyne on the up</figcaption>
+		</figure>
+	</div>
 </Layout>
