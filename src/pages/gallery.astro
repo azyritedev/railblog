@@ -1,5 +1,10 @@
 ---
+import Tag from "@/components/Tag.astro";
 import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const tags = await getCollection("tags");
+const photos = await getCollection("photos");
 ---
 
 <Layout title="Photo Gallery">
@@ -9,5 +14,31 @@ import Layout from "@/layouts/Layout.astro";
       <b>A quick organisational note:</b> Photos are grouped with tags; a photo may
       have multiple tags so may appear in multiple places. There are no "albums"
     </p>
+    <p>
+      There are a total of <b>{photos.length}</b> unique photos in the gallery.
+    </p>
+    <h2>By Tags</h2>
+    <div class="not-prose">
+      <div class="flex flex-col gap-2">
+        {
+          tags.map((t) => (
+            <div class="flex items-center gap-2">
+              <Tag tag={t.id} />{" "}
+              <div>
+                <span>
+                  — {t.data.description} (containing
+                  {
+                    photos.filter((p) =>
+                      p.data.meta.tags.some((pt) => pt.id === t.id)
+                    ).length
+                  }
+                  photos)
+                </span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </Layout>

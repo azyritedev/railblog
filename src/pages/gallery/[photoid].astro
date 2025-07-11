@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Picture from "astro/components/Picture.astro";
 import Describe from "@/components/Describe.astro";
+import Tag from "@/components/Tag.astro";
 
 export async function getStaticPaths() {
   const photos = await getCollection("photos");
@@ -32,7 +33,15 @@ const { photo } = Astro.props;
       Original size: {photo.data.photo.width}x{photo.data.photo.height}px
     </div>
   </main>
-  <section class="p-4 bg-gray-300">
+  <section class="p-4 bg-gray-300 mb-2">
+    <h2 class="text-lg font-bold">Description</h2>
+    <div class="ml-4">
+      <p>{photo.data.meta.detail}</p>
+    </div>
+    <h2 class="text-lg font-bold">Tags</h2>
+    <div class="ml-4 flex flex-wrap gap-2 p-2">
+      {photo.data.meta.tags.map((t) => <Tag tag={t.id} />)}
+    </div>
     <h2 class="text-lg font-bold">Photo Details</h2>
     <div class="ml-4">
       <Describe
@@ -42,6 +51,7 @@ const { photo } = Astro.props;
           "Location (Approximate)":
             photo.data.meta.approxLocation ?? "Unspecified",
           Edited: (photo.data.meta.edited && "Yes") || "No",
+          ID: photo.id,
         }}
       />
     </div>

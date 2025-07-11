@@ -1,0 +1,51 @@
+---
+import Tag from "@/components/Tag.astro";
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const tags = await getCollection("tags");
+  const photos = await getCollection("photos");
+  return tags.flatMap((t) => {
+    const filteredPhotos = photos.filter((p) =>
+      p.data.meta.tags.some((pt) => pt.id === t.id)
+    );
+
+    return paginate(filteredPhotos, {
+      params: { tagid: t.id },
+      pageSize: 2,
+    });
+  });
+}
+
+const { page } = Astro.props;
+const params = Astro.params;
+
+type PhotoEntry = CollectionEntry<"photos">;
+---
+
+<Layout title={params.tagid}>
+  <h1 class="text-xl font-bold">
+    Viewing <Tag class="inline-block" tag={params.tagid} /> tag
+  </h1>
+  <p>Page {page.currentPage} of {page.total}</p>
+  <div class="grid gap-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-4">
+    {
+      page.data.map((photo: PhotoEntry) => {
+        return (
+          <div class="bg-gray-300 p-2 flex flex-col gap-2">
+            <Image src={photo.data.photo} alt={photo.data.meta.detail} />
+            <div>
+              <h2 class="font-bold text-center">{photo.data.meta.title}</h2>
+            </div>
+            <div class="flex gap-2 justify-center">
+              {photo.data.meta.tags.map(t => <Tag tag={t.id}/>)}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</Layout>

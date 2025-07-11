@@ -1,5 +1,18 @@
 {
-    "freight": {
-        "description": "Trains carrying goods rather than pax"
-    }
+  "freight": {
+    "description": "Trains carrying goods rather than pax"
+  },
+  "railfirst": {
+    "description": "RailFirst"
+  },
+  "ccn": {
+    "description": "Passenger services on the Central Coast & Newcastle line",
+    "themeColor": "bg-intercity-ccn"
+  },
+  "d-set": {
+    "description": "Electric multiple unit intercity 'Mariyung' trains"
+  },
+  "infrastructure": {
+    "description": "Railway infrastructure and related buildings"
+  }
 }
