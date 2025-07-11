@@ -18,6 +18,19 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 );
 
 const { photo } = Astro.props;
+
+// Find photos that list this one as "related" (i.e. backlinks)
+const relatedPhotoIds = new Set<string>();
+for (const related of photo.data.meta.related ?? []) {
+  relatedPhotoIds.add(related.id);
+}
+
+const backLinkRelatedPhotos = await getCollection("photos").then((arr) =>
+  arr.filter((p) => p.data.meta.related?.some((r) => r.id === photo.id))
+);
+for (const related of backLinkRelatedPhotos) {
+  relatedPhotoIds.add(related.id);
+}
 ---
 
 <Layout>
@@ -56,6 +69,29 @@ const { photo } = Astro.props;
     <h2 class="text-lg font-bold">Tags</h2>
     <div class="ml-4 flex flex-wrap gap-2 p-2">
       {photo.data.meta.tags.map((t) => <Tag tag={t.id} />)}
+    </div>
+    <h2 class="text-lg font-bold">Related Photos</h2>
+    <div class="ml-4">
+      <p>
+        {
+          relatedPhotoIds.size
+            ? `${relatedPhotoIds.size} related photo(s) found`
+            : "No related photos found :("
+        }
+      </p>
+      {
+        relatedPhotoIds.size && (
+          <ul class="list-disc">
+            {Array.from(relatedPhotoIds).map((id) => (
+              <li>
+                <a class="underline" href={`/gallery/${id}`}>
+                  {id}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </div>
     <h2 class="text-lg font-bold">Photo Details</h2>
     <div class="ml-4">

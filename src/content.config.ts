@@ -101,7 +101,9 @@ const zPhotoMeta = z.object({
     date: z.date(),
     author: reference('authors'),
     edited: z.boolean(),
-    notes: z.string().optional()
+    notes: z.string().optional(),
+    // Automatic backlinks generated
+    related: z.array(reference('photos')).optional()
 })
 
 const photos = defineCollection({
