@@ -14,5 +14,8 @@
   },
   "infrastructure": {
     "description": "Railway infrastructure and related buildings"
+  },
+  "interior": {
+    "description": "The inside of passenger trains"
   }
 }
