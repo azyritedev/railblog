@@ -9,6 +9,20 @@
     "description": "Passenger services on the Central Coast & Newcastle line",
     "themeColor": "bg-intercity-ccn"
   },
+  "t9": {
+    "description": "Passenger services on the T9 Northern line",
+    "themeColor": "bg-train-t9"
+  },
+  "t3": {
+    "description": "Passenger services on the T3 Liverpool & Inner West line",
+    "themeColor": "bg-train-t3"
+  },
+  "t-set": {
+    "description": "Suburban electric multiple unit 'Tangara' trains including ex-intercity G sets"
+  },
+  "m-set": {
+    "description": "Suburban electric multiple units 'Millennium' trains"
+  },
   "d-set": {
     "description": "Electric multiple unit intercity 'Mariyung' trains"
   },
