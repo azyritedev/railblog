@@ -3,11 +3,15 @@
     "description": "Trains carrying goods rather than pax"
   },
   "railfirst": {
-    "description": "RailFirst"
+    "description": "RailFirst-branded locomotives"
   },
   "ccn": {
     "description": "Passenger services on the Central Coast & Newcastle line",
     "themeColor": "bg-intercity-ccn"
+  },
+  "shl": {
+    "description": "Passenger services on the Southern Highlands line",
+    "themeColor": "bg-intercity-shl"
   },
   "t9": {
     "description": "Passenger services on the T9 Northern line",
@@ -26,8 +30,14 @@
   "m-set": {
     "description": "Suburban electric multiple units 'Millennium' trains"
   },
+  "a-set": {
+    "description": "Waratah Series 1 suburban electric multiple units"
+  },
   "d-set": {
     "description": "Electric multiple unit intercity 'Mariyung' trains"
+  },
+  "endeavour-set": {
+    "description": "Regional and intercity diesel multiple unit Endeavour trains, similar to Xplorers. AKA N sets"
   },
   "tiv": {
     "description": "The Track Inspection Vehicle"
