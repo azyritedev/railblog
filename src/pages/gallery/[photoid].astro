@@ -13,7 +13,9 @@ export async function getStaticPaths() {
   }));
 }
 
-const images = import.meta.glob<{ default: ImageMetadata }>("/src/content/photos/*.jpg")
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/content/photos/*.jpg"
+);
 
 const { photo } = Astro.props;
 ---
@@ -41,6 +43,16 @@ const { photo } = Astro.props;
     <div class="ml-4">
       <p>{photo.data.meta.detail}</p>
     </div>
+    {
+      photo.data.meta.notes && (
+        <>
+          <h2 class="text-lg font-bold">Additional Notes</h2>
+          <div class="ml-4">
+            <p>{photo.data.meta.notes}</p>
+          </div>
+        </>
+      )
+    }
     <h2 class="text-lg font-bold">Tags</h2>
     <div class="ml-4 flex flex-wrap gap-2 p-2">
       {photo.data.meta.tags.map((t) => <Tag tag={t.id} />)}

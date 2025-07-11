@@ -92,6 +92,7 @@ const zImageMetadata = z.object({
     // empty object
 }).passthrough().transform(val => val as ImageMetadata) // force to correct type
 
+// The meta sidecar file (YAML) properties
 const zPhotoMeta = z.object({
     title: z.string(),
     detail: z.string(), // also alt text
@@ -99,7 +100,8 @@ const zPhotoMeta = z.object({
     approxLocation: z.string().optional(),
     date: z.date(),
     author: reference('authors'),
-    edited: z.boolean()
+    edited: z.boolean(),
+    notes: z.string().optional()
 })
 
 const photos = defineCollection({
