@@ -23,6 +23,8 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
 const { page } = Astro.props;
 const params = Astro.params;
 
+const images = import.meta.glob<{ default: ImageMetadata }>("/src/content/photos/*.jpg")
+
 type PhotoEntry = CollectionEntry<"photos">;
 ---
 
@@ -30,15 +32,24 @@ type PhotoEntry = CollectionEntry<"photos">;
   <h1 class="text-xl font-bold">
     Viewing <Tag class="inline-block" tag={params.tagid} /> tag
   </h1>
-  <p>Page {page.currentPage} of {page.lastPage}</p>
-  <div class="grid gap-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-4">
+  <p>
+    Page {page.currentPage} of {page.lastPage} (Showing items {page.start + 1}-{
+      page.end + 1
+    } of {page.total} photos)
+  </p>
+  <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
     {
       page.data.map((photo: PhotoEntry) => {
+        console.log(images)
+        console.log(photo.data.key)
         return (
           <div class="bg-gray-300 p-2 flex flex-col gap-2">
-            <Image src={photo.data.photo} alt={photo.data.meta.detail} />
+            <Image src={images[photo.data.key]!()} alt={photo.data.meta.detail} />
             <div>
-              <a href={`/gallery/${photo.id}`} class="block hover:underline font-bold text-center">
+              <a
+                href={`/gallery/${photo.id}`}
+                class="block hover:underline font-bold text-center"
+              >
                 {photo.data.meta.title}
               </a>
             </div>
