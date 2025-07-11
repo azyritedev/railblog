@@ -5,6 +5,21 @@ import { getCollection } from "astro:content";
 
 const tags = await getCollection("tags");
 const photos = await getCollection("photos");
+tags.sort((tagA, tagB) => {
+  let tagACount = 0;
+  let tagBCount = 0;
+
+  photos.forEach((p) => {
+    if (p.data.meta.tags.some((t) => t.id === tagA.id)) {
+      tagACount++;
+    }
+    if (p.data.meta.tags.some((t) => t.id === tagB.id)) {
+      tagBCount++;
+    }
+  });
+
+  return tagBCount - tagACount;
+});
 ---
 
 <Layout title="Photo Gallery">
