@@ -1,0 +1,18 @@
+---
+interface Props {
+  descriptions: { [k: string]: string };
+}
+
+const { descriptions } = Astro.props;
+---
+
+<ul>
+  {
+    Object.entries(descriptions).map(([key, value]) => (
+      <li>
+        <span class="font-bold">{key}:</span>
+        <span>{value}</span>
+      </li>
+    ))
+  }
+</ul>

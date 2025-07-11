@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Picture from "astro/components/Picture.astro";
+import Describe from "@/components/Describe.astro";
+
+export async function getStaticPaths() {
+  const photos = await getCollection("photos");
+  return photos.map((photo) => ({
+    params: { photoid: photo.id },
+    props: { photo },
+  }));
+}
+
+const { photo } = Astro.props;
+---
+
+<Layout>
+  <section>
+    <h1 class="text-xl font-bold">{photo.data.meta.title}</h1>
+  </section>
+  <main class="my-4 flex flex-col justify-center items-center">
+    <div class="lg:w-3/4 xl:w-1/2">
+      <Picture
+        alt={photo.data.meta.detail}
+        src={photo.data.photo}
+        formats={["jpg", "webp"]}
+        loading="eager"
+      />
+    </div>
+    <div>
+      Original size: {photo.data.photo.width}x{photo.data.photo.height}px
+    </div>
+  </main>
+  <section class="p-4 bg-gray-300">
+    <h2 class="text-lg font-bold">Photo Details</h2>
+    <div class="ml-4">
+      <Describe
+        descriptions={{
+          Photographer: photo.data.meta.author.id,
+          Date: `${photo.data.meta.date.toString()} (${photo.data.meta.date.toISOString()})`,
+          "Location (Approximate)":
+            photo.data.meta.approxLocation ?? "Unspecified",
+          Edited: (photo.data.meta.edited && "Yes") || "No",
+        }}
+      />
+    </div>
+  </section>
+</Layout>

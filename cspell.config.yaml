@@ -1,0 +1,38 @@
+---
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+
+version: '0.2'
+allowCompoundWords: true
+# dictionaryDefinitions:
+#   - name: common-dictionary
+#     path: './.config/cspell/common-dictionary.txt'
+#     addWords: true
+
+#   - name: project-dictionary
+#     path: './.config/cspell/project-dictionary.txt'
+#     addWords: true
+dictionaries:
+  # - project-dictionary
+  # - common-dictionary
+
+  - softwareTerms
+  - companies
+  - filetypes
+
+  - en-gb
+ignorePaths:
+  - '.config/cspell/*.txt'
+
+  # Rust
+  - 'target/**'
+  - 'Cargo.lock'
+
+  # Node.js
+  - 'node_modules/**'
+  - 'dist/**'
+  - 'build/**'
+
+  - 'coverage/**'
+
+  # Git
+  - '.git/**'
