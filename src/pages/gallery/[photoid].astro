@@ -80,7 +80,7 @@ for (const related of backLinkRelatedPhotos) {
         }
       </p>
       {
-        relatedPhotoIds.size && (
+        relatedPhotoIds.size > 0 && (
           <ul class="list-disc">
             {Array.from(relatedPhotoIds).map((id) => (
               <li>
