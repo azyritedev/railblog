@@ -32,6 +32,10 @@
     "themeColor": "bg-train-t3",
     "group": "Train Lines"
   },
+  "k-set": {
+    "description": "Older suburban electric multiple units that now only run during peak hours and special events",
+    "group": "Train Set"
+  },
   "v-set": {
     "description": "Older intercity electric multiple units now retired from the SCO and CCN lines",
     "group": "Train Set"
@@ -46,6 +50,10 @@
   },
   "a-set": {
     "description": "Waratah Series 1 suburban electric multiple units",
+    "group": "Train Set"
+  },
+  "b-set": {
+    "description": "Waratah Series 2 suburban electric multiple units",
     "group": "Train Set"
   },
   "d-set": {
