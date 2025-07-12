@@ -32,6 +32,11 @@
     "themeColor": "bg-train-t3",
     "group": "Train Lines"
   },
+  "t4": {
+    "description": "Passenger services on the T4 Eastern Suburbs and Illawarra Line",
+    "themeColor": "bg-train-t4",
+    "group": "Train Lines"
+  },
   "k-set": {
     "description": "Older suburban electric multiple units that now only run during peak hours and special events",
     "group": "Train Set"
@@ -62,6 +67,10 @@
   },
   "endeavour-set": {
     "description": "Regional and intercity diesel multiple unit Endeavour trains, similar to Xplorers. AKA N sets",
+    "group": "Train Set"
+  },
+  "h-set": {
+    "description": "Electric multiple unit intercity and now soon to be suburban 'OSCAR' (Outer Suburban Car) trains",
     "group": "Train Set"
   },
   "xpt-set": {
