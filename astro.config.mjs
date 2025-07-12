@@ -4,11 +4,14 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import content from "@originjs/vite-plugin-content";
 
+import node from "@astrojs/node";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss(), content()],
   },
+
   // redirects: {
   //   "/gallery/tag/[tagid]/": "/gallery/tag/[tagid]/1", // pagination
   // },
@@ -21,4 +24,8 @@ export default defineConfig({
       },
     },
   },
+
+  adapter: node({
+    mode: "standalone",
+  }),
 });
