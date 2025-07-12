@@ -98,13 +98,45 @@ for (const related of backLinkRelatedPhotos) {
       <Describe
         descriptions={{
           Photographer: photo.data.meta.author.id,
-          Date: `${photo.data.meta.date.toString()} (${photo.data.meta.date.toISOString()})`,
+          Date: `${photo.data.meta.date?.toString() ?? photo.data.exif.date?.toString() ?? "No Date Found"} (${photo.data.meta.date?.toISOString() ?? photo.data.exif.date?.toISOString() ?? "No Date Found"})`,
           "Location (Approximate)":
             photo.data.meta.approxLocation ?? "Unspecified",
           Edited: (photo.data.meta.edited && "Yes") || "No",
           ID: photo.id,
         }}
       />
+    </div>
+    <h2 class="text-lg font-bold">Extracted EXIF</h2>
+    <div class="ml-4">
+      {
+        photo.data.exif && (
+          <>
+            <p class="text-sm">
+              EXIF data found, but it may be incomplete. Coordinates are
+              provided LAT/LON in the format found in EXIF data with no
+              processing apart from truncation to 6 decimal places.
+            </p>
+            <Describe
+              descriptions={{
+                "Camera Make": photo.data.exif.cameraMake ?? "Unknown",
+                "Camera Model": photo.data.exif.cameraModel ?? "Unknown Model",
+                Aperture: photo.data.exif.aperture
+                  ? `f/${photo.data.exif.aperture}`
+                  : "Unknown",
+                ISO: photo.data.exif.iso?.toString() ?? "Unknown",
+                "Exposure Time": photo.data.exif.exposureTime
+                  ? `1/${Math.round(1 / photo.data.exif.exposureTime)}sec`
+                  : "Unknown",
+                Coordinates:
+                  photo.data.exif.lat && photo.data.exif.lon
+                    ? `${photo.data.exif.lat.toFixed(6)}, ${photo.data.exif.lon.toFixed(6)}`
+                    : "No GPS data found",
+              }}
+            />
+          </>
+        )
+      }
+      {!photo.data.exif && <p class="text-sm">No EXIF data found :(</p>}
     </div>
   </section>
 </Layout>

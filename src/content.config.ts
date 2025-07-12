@@ -1,5 +1,8 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob, file, type Loader } from "astro/loaders";
+import fs from "node:fs/promises";
+import path from "node:path"
+import exifr from "exifr"
 
 /**
  * Defining collections
@@ -71,13 +74,28 @@ function photoLoader(): Loader {
                 const objKey = key.slice(0, -5) // key for resolvedPhotos including path
                 const id = objKey.split("/").at(-1) ?? "" // slice off .json, and get last part of path
 
+                const realPath = path.join(import.meta.dirname, "content/photos", id + '.jpg')
+                const bytes = await fs.readFile(realPath);
+                const exif = await exifr.parse(bytes)
+
                 const photo = resolvedPhotos[objKey]
                 const toWrite = await ctx.parseData({
                     id,
                     data: {
                         meta: data.default,
                         photo,
-                        key: objKey + ".jpg"
+                        exif: exif ? {
+                            cameraMake: exif.Make,
+                            cameraModel: exif.Model,
+                            fNumber: exif.FNumber,
+                            aperture: exif.ApertureValue,
+                            iso: exif.ISO,
+                            exposureTime: exif.ExposureTime,
+                            lat: exif.latitude,
+                            lon: exif.longitude,
+                            date: exif.DateTimeOriginal
+                        } : {}, // empty object = no exif
+                        key: objKey + ".jpg",
                     },
                 });
 
@@ -94,13 +112,26 @@ const zImageMetadata = z.object({
     // empty object
 }).passthrough().transform(val => val as ImageMetadata) // force to correct type
 
+// Some EXIF image data (partial obj)
+const zExif = z.object({
+    cameraMake: z.string(),
+    cameraModel: z.string(),
+    fNumber: z.number(),
+    aperture: z.number(),
+    iso: z.number(),
+    exposureTime: z.number(),
+    lat: z.number(),
+    lon: z.number(),
+    date: z.date()
+}).partial()
+
 // The meta sidecar file (YAML) properties
 const zPhotoMeta = z.object({
     title: z.string(),
     detail: z.string(), // also alt text
     tags: z.array(reference('tags')),
     approxLocation: z.string().optional(),
-    date: z.date(),
+    date: z.date().optional(), // now optional, may check exif
     author: reference('authors'),
     edited: z.boolean(),
     notes: z.string().optional(),
@@ -114,6 +145,7 @@ const photos = defineCollection({
     schema: z.object({
         photo: zImageMetadata, // ImageMetadata
         meta: zPhotoMeta,
+        exif: zExif,
         key: z.string()
     })
 })
