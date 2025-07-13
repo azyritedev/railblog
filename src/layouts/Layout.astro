@@ -1,13 +1,16 @@
 ---
+import OpenGraph from "@/components/OpenGraph.astro";
 import PageHeader from "@/components/PageHeader.astro";
 
 import "@/styles/global.css";
+import type { ComponentProps } from "astro/types";
 
-const { title, description } = Astro.props;
+const { title, description, og } = Astro.props;
 
 interface Props {
   title?: string;
   description?: string;
+  og?: ComponentProps<typeof OpenGraph>;
 }
 ---
 
@@ -19,6 +22,9 @@ interface Props {
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     {description && <meta name="description" content={description} />}
+
+    <!-- Open Graph -->
+    {og && <OpenGraph {...og} />}
     <title>{title ? `${title} |` : ""} azyrite's rail</title>
   </head>
 
