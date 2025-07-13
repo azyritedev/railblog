@@ -8,6 +8,7 @@ import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://railblog.astrial.org",
   vite: {
     plugins: [tailwindcss(), content()],
   },
