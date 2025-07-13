@@ -24,7 +24,8 @@ const posts = defineCollection({
         title: z.string(),
         blurb: z.string(),
         author: reference('authors'),
-        published: z.coerce.date()
+        published: z.coerce.date(),
+        draft: z.boolean().default(false)
     })
 })
 
