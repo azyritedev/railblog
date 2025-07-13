@@ -30,7 +30,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 type PhotoEntry = CollectionEntry<"photos">;
 ---
 
-<Layout title={params.tagid}>
+<Layout title={params.tagid} description={`Viewing the ${params.tagid} tag`}>
   <h1 class="text-xl font-bold">
     Viewing <Tag class="inline-block" tag={params.tagid} /> tag
   </h1>
