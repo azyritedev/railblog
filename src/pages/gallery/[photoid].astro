@@ -48,7 +48,7 @@ const photoDate = photo.data.meta.date ?? photo.data.exif.date;
   description={photo.data.meta.detail}
   og={{
     author: photo.data.meta.author.id,
-    imageUrl: ogPhoto.src,
+    imagePath: ogPhoto.src,
     published: photoDate,
     title: photo.data.meta.title,
   }}

@@ -3,7 +3,7 @@ interface Props {
   title: string;
   published?: Date;
   author: string;
-  imageUrl: string;
+  imagePath: string;
 }
 
 const props = Astro.props;
@@ -20,5 +20,5 @@ const props = Astro.props;
   )
 }
 <meta property="article:author" content={props.author} />
-<meta property="og:image" content={props.imageUrl} />
+<meta property="og:image" content={new URL(props.imagePath, Astro.site)} />
 <meta property="og:url" content={Astro.url} />
