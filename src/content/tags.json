@@ -7,6 +7,15 @@
     "description": "RailFirst-branded locomotives",
     "group": "Freight Operators"
   },
+  "ssr": {
+    "description": "Southern Shorthaul Railroad-branded locomotives",
+    "group": "Freight Operators"
+  },
+  "bmt": {
+    "description": "Passenger services on the Blue Mountains line",
+    "themeColor": "bg-intercity-bmt",
+    "group": "Train Lines"
+  },
   "ccn": {
     "description": "Passenger services on the Central Coast & Newcastle line",
     "themeColor": "bg-intercity-ccn",
@@ -25,6 +34,11 @@
   "regional": {
     "description": "Regional and long-distance train services",
     "themeColor": "bg-regional-trains",
+    "group": "Train Lines"
+  },
+  "t2": {
+    "description": "Passenger services on the T2 Leppington & Inner West line",
+    "themeColor": "bg-train-t2",
     "group": "Train Lines"
   },
   "t3": {
