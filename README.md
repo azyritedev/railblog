@@ -10,4 +10,6 @@ Please check out the gallery at **[railblog.astrial.org](https://railblog.astria
 ## Deployment Instructions
 You will need the specified pnpm version (check `package.json`). Install all dependencies. Make sure to edit the configuration `astro.config.mjs` before running `pnpm build`.
 
-The server and client will be in the `dist` folder ready for deployment.
+The server and client will be in the `dist` folder ready for deployment to your
+hosting provider of choice. The `dist/client` folder can be deployed to any CDN
+to speed up your but will also be served by the Node.js server in `dist/server`. 
