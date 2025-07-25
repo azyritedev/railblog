@@ -1,0 +1,81 @@
+---
+import type { GetStaticPaths } from "astro";
+import Tag from "@/components/Tag.astro";
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const photos = await getCollection("photos");
+
+  return paginate(photos, {
+    pageSize: 16,
+  });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/content/photos/*.jpg"
+);
+
+type PhotoEntry = CollectionEntry<"photos">;
+---
+
+<Layout title="All photos" description="Viewing all photos in the gallery">
+  <h1 class="text-xl font-bold">Viewing all photos in the gallery</h1>
+  <p>
+    Page {page.currentPage} of {page.lastPage} (Showing items {page.start + 1}-{
+      page.end + 1
+    } of {page.total} photos)
+  </p>
+  <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
+    {
+      page.data.map((photo: PhotoEntry) => {
+        return (
+          <div class="bg-gray-300 p-2 flex flex-col gap-2">
+            <Image
+              layout="constrained"
+              src={images[photo.data.key]!()}
+              alt={photo.data.meta.detail}
+            />
+            <div>
+              <a
+                href={`/gallery/${photo.id}`}
+                class="block hover:underline font-bold text-center"
+              >
+                {photo.data.meta.title}
+              </a>
+            </div>
+            <div class="flex gap-2 justify-center">
+              {photo.data.meta.tags.map((t) => (
+                <Tag tag={t.id} />
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+  <div class="bg-gray-300 p-2 mt-4 flex justify-center gap-2">
+    <div>
+      <span>Page:</span>
+    </div>
+    {
+      new Array(page.lastPage).fill(null).map((_, i) => (
+        <div>
+          {/* No link to the current page */}
+          {i + 1 === page.currentPage ? (
+            <span>{page.currentPage}</span>
+          ) : (
+            <a href={`${i + 1}`} class="underline">
+              {" "}
+              {i + 1}
+            </a>
+          )}
+        </div>
+      ))
+    }
+  </div>
+</Layout>
