@@ -1,22 +1,55 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import Picture from "astro/components/Picture.astro";
+import { getEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
-  return posts.filter(p => !p.data.draft).map((post) => ({
-    params: { id: post.id },
-    props: { post },
-  }));
+  return posts
+    .filter((p) => !p.data.draft)
+    .map((post) => ({
+      params: { id: post.id },
+      props: { post },
+    }));
 }
 
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/content/photos/*.jpg"
+);
+
 const { post } = Astro.props;
+const photo = post.data.photo && (await getEntry(post.data.photo));
+const image = photo && images[photo.data.key];
 const { Content } = await render(post);
 ---
 
 <Layout title={post.data.title} description={post.data.blurb}>
   <article class="prose">
-    <h1>{post.data.title}</h1>
+    <header>
+      <h1>{post.data.title}</h1>
+      {
+        image && (
+          <figure>
+            <Picture alt={photo.data.meta.detail} src={image()} />
+            <figcaption>
+              {photo.data.meta.title} —{" "}
+              <a href={`/gallery/${photo.id}`}>View image in gallery</a>
+            </figcaption>
+          </figure>
+        )
+      }
+
+      <p>
+        <b>Published</b>
+        <time datetime={post.data.published.toISOString()}
+          >{post.data.published.toISOString().slice(0, 10)}</time
+        >
+        <br />
+        <b>By</b>
+        {post.data.author.id}
+      </p>
+    </header>
     <Content />
   </article>
 </Layout>

@@ -23,6 +23,7 @@ const posts = defineCollection({
     schema: z.object({
         title: z.string(),
         blurb: z.string(),
+        photo: reference('photos').optional(),
         author: reference('authors'),
         published: z.coerce.date(),
         draft: z.boolean().default(false)
