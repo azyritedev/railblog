@@ -36,6 +36,11 @@
     "themeColor": "bg-regional-trains",
     "group": "Train Lines"
   },
+  "t1": {
+    "description": "Passenger services on the T1 North Shore & Western line",
+    "themeColor": "bg-train-t1",
+    "group": "Train Lines"
+  },
   "t2": {
     "description": "Passenger services on the T2 Leppington & Inner West line",
     "themeColor": "bg-train-t2",
