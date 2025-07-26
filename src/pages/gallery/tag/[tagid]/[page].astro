@@ -3,6 +3,7 @@ import Tag from "@/components/Tag.astro";
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths({ paginate }: { paginate: Function }) {
@@ -27,18 +28,23 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/content/photos/*.jpg"
 );
 
+const tag = await getEntry("tags", params.tagid);
+
 type PhotoEntry = CollectionEntry<"photos">;
 ---
 
 <Layout title={params.tagid} description={`Viewing the ${params.tagid} tag`}>
-  <h1 class="text-xl font-bold">
+  <h1 class="text-3xl font-bold">
     Viewing <Tag class="inline-block" tag={params.tagid} /> tag
   </h1>
   <p>
+    {tag?.data.description ?? "No description"}
+  </p>
+  <small>
     Page {page.currentPage} of {page.lastPage} (Showing items {page.start + 1}-{
       page.end + 1
     } of {page.total} photos)
-  </p>
+  </small>
   <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
     {
       page.data.map((photo: PhotoEntry) => {
