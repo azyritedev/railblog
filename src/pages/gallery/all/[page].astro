@@ -24,22 +24,27 @@ type PhotoEntry = CollectionEntry<"photos">;
 ---
 
 <Layout title="All photos" description="Viewing all photos in the gallery">
-  <h1 class="text-xl font-bold">Viewing all photos in the gallery</h1>
-  <p>
+  <h1 class="text-3xl font-bold">Viewing all photos in the gallery</h1>
+  <small>
     Page {page.currentPage} of {page.lastPage} (Showing items {page.start + 1}-{
       page.end + 1
     } of {page.total} photos)
-  </p>
-  <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
+  </small>
+  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
     {
       page.data.map((photo: PhotoEntry) => {
         return (
-          <div class="bg-gray-300 p-2 flex flex-col gap-2">
-            <Image
-              layout="constrained"
-              src={images[photo.data.key]!()}
-              alt={photo.data.meta.detail}
-            />
+          <div class="bg-gray-300 p-4 flex flex-col gap-2">
+            <a
+              href={`/gallery/${photo.id}`}
+              class="block hover:underline font-bold text-center"
+            >
+              <Image
+                layout="constrained"
+                src={images[photo.data.key]!()}
+                alt={photo.data.meta.detail}
+              />
+            </a>
             <div>
               <a
                 href={`/gallery/${photo.id}`}
@@ -58,7 +63,7 @@ type PhotoEntry = CollectionEntry<"photos">;
       })
     }
   </div>
-  <div class="bg-gray-300 p-2 mt-4 flex justify-center gap-2">
+  <div class="bg-gray-300 p-4 text-lg mt-4 flex justify-center gap-2">
     <div>
       <span>Page:</span>
     </div>
