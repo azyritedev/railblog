@@ -5,7 +5,7 @@ import { Image } from "astro:assets";
 ---
 
 <Layout>
-  <div class="prose">
+  <div class="prose mb-4">
     <h1>Welcome to azyrite's rail blog!</h1>
     <p>
       Hello there! Welcome to my rail blog and gallery. <b
@@ -14,10 +14,17 @@ import { Image } from "astro:assets";
         >gallery</a
       >.
     </p>
-    <p>
-      <b>You can now view a listing of all photos</b>
-      <a href="/gallery/all/1">here</a>!
-    </p>
+    <hr />
+  </div>
+  <div>
+    <a
+      href="/gallery/all/1"
+      class="inline-block hover:underline p-4 font-bold bg-azyrite-blue text-white"
+    >
+      View all photos
+    </a>
+  </div>
+  <div class="prose mt-4">
     <hr />
     <p>Here's a cool image I got recently:</p>
     <figure>
