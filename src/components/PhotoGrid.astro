@@ -1,0 +1,53 @@
+---
+/**
+ * Masonry-style grid for photos with custom filtering (optional)
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import { getPhotoSrc } from "src/lib/loader/photos";
+import Tag from "./Tag.astro";
+
+type Entry = CollectionEntry<"photos">;
+
+const { props } = Astro;
+
+const allPhotos = await getCollection("photos", props.filterFn);
+
+interface Props {
+  // Custom function to filter photos
+  filterFn?: (photos: Entry) => Promise<boolean> | boolean;
+}
+---
+<div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+  {
+    allPhotos.map((photo) => (
+      <div class="bg-gray-300 flex w-full break-inside-avoid-column flex-col gap-2 pb-4">
+        <a
+          href={`/gallery/${photo.id}`}
+          class="block hover:underline font-bold text-center"
+        >
+          <Image
+            layout="constrained"
+            src={getPhotoSrc(photo.data.path)}
+            alt={photo.data.sidecar.detail}
+          />
+        </a>
+
+        <div class="p-2">
+          <a
+            href={`/gallery/${photo.id}`}
+            class="block hover:underline font-bold text-center"
+          >
+            {photo.data.sidecar.title}
+          </a>
+        </div>
+        <div class="flex gap-2 justify-center">
+          {photo.data.sidecar.tags.map((t) => (
+            <Tag tag={t.id} />
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>

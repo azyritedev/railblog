@@ -10,10 +10,10 @@ tags.sort((tagA, tagB) => {
   let tagBCount = 0;
 
   photos.forEach((p) => {
-    if (p.data.meta.tags.some((t) => t.id === tagA.id)) {
+    if (p.data.sidecar.tags.some((t) => t.id === tagA.id)) {
       tagACount++;
     }
-    if (p.data.meta.tags.some((t) => t.id === tagB.id)) {
+    if (p.data.sidecar.tags.some((t) => t.id === tagB.id)) {
       tagBCount++;
     }
   });
@@ -86,7 +86,7 @@ for (const tag of tags) {
                   (containing
                   {
                     photos.filter((p) =>
-                      p.data.meta.tags.some((pt) => pt.id === t.id)
+                      p.data.sidecar.tags.some((pt) => pt.id === t.id)
                     ).length
                   }
                   photos)

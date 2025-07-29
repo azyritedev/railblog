@@ -2,6 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
+  --font-sans: 'DM Sans', 'sans-serif';
+
   --color-azyrite-blue: var(--color-blue-500);
 
   /* TfNSW Colors */

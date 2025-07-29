@@ -5,6 +5,7 @@ import { Picture } from "astro:assets";
 import Describe from "@/components/Describe.astro";
 import Tag from "@/components/Tag.astro";
 import { getImage } from "astro:assets";
+import { getPhotoSrc } from "src/lib/loader/photos";
 
 export async function getStaticPaths() {
   const photos = await getCollection("photos");
@@ -14,154 +15,159 @@ export async function getStaticPaths() {
   }));
 }
 
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/content/photos/*.jpg"
-);
-
 const { photo } = Astro.props;
+
+const photoSrc = getPhotoSrc(photo.data.path);
+const photoData = (await photoSrc).default;
 
 // Get photo for Open Graph
 const ogPhoto = await getImage({
-  src: images[photo.data.key]!(),
+  src: photoData,
   quality: "low",
   densities: ["0.5x"],
 });
 
 // Find photos that list this one as "related" (i.e. backlinks)
 const relatedPhotoIds = new Set<string>();
-for (const related of photo.data.meta.related ?? []) {
+for (const related of photo.data.sidecar.related ?? []) {
   relatedPhotoIds.add(related.id);
 }
 
 const backLinkRelatedPhotos = await getCollection("photos").then((arr) =>
-  arr.filter((p) => p.data.meta.related?.some((r) => r.id === photo.id))
+  arr.filter((p) => p.data.sidecar.related?.some((r) => r.id === photo.id))
 );
 for (const related of backLinkRelatedPhotos) {
   relatedPhotoIds.add(related.id);
 }
 
-const photoDate = photo.data.meta.date ?? photo.data.exif.date;
+const photoDate = photo.data.sidecar.date ?? photo.data.exif.date;
 ---
 
 <Layout
-  title={photo.data.meta.title}
-  description={photo.data.meta.detail}
+  title={photo.data.sidecar.title}
+  description={photo.data.sidecar.detail}
   og={{
-    author: photo.data.meta.author.id,
+    author: photo.data.sidecar.author.id,
     imagePath: ogPhoto.src,
     published: photoDate,
-    title: photo.data.meta.title,
-    description: photo.data.meta.detail
+    title: photo.data.sidecar.title,
+    description: photo.data.sidecar.detail,
   }}
 >
-  <section>
-    <h1 class="text-xl font-bold">{photo.data.meta.title}</h1>
-  </section>
-  <main class="my-4 flex flex-col justify-center items-center">
-    <div class="lg:w-3/4 xl:w-1/2">
-      <Picture
-        alt={photo.data.meta.detail}
-        src={images[photo.data.key]!()}
-        formats={["jpg", "webp"]}
-        loading="eager"
-        layout="full-width"
-        fetchpriority="high"
-      />
+  <!-- <section>
+    <h1 class="text-xl font-bold">{photo.data.sidecar.title}</h1>
+  </section> -->
+
+  <main>
+    <div class="w-full mb-2 flex-col flex items-center">
+      <div class="xl:w-3/4 mb-1">
+        <Picture
+          alt={photo.data.sidecar.detail}
+          src={photoSrc}
+          formats={["jpg", "webp"]}
+          loading="eager"
+          layout="full-width"
+          fetchpriority="high"
+        />
+      </div>
+      <p class="text-center">
+        <small> Original size: {photoData.width}x{photoData.height}px</small>
+      </p>
     </div>
-    <div>
-      Original size: {photo.data.photo.width}x{photo.data.photo.height}px
+    <div class="w-full flex flex-col items-center">
+      <div class="xl:w-3/4">
+        <p>Title</p>
+        <h1 class="text-3xl font-extrabold">{photo.data.sidecar.title}</h1>
+
+        <hr class="my-8" />
+
+        <h2 class="text-lg mb-2 text-azyrite-blue">Description</h2>
+        <p>{photo.data.sidecar.detail}</p>
+
+        {
+          photo.data.sidecar.notes && (
+            <>
+              <h2 class="text-lg mt-4 mb-2 text-azyrite-blue">
+                Additional Notes
+              </h2>
+              <p>{photo.data.sidecar.notes}</p>
+            </>
+          )
+        }
+
+        <h2 class="text-lg mt-4 mb-2 text-azyrite-blue">Tags</h2>
+        <div class="flex flex-wrap gap-2">
+          {photo.data.sidecar.tags.map((t) => <Tag tag={t.id} />)}
+        </div>
+
+        <h2 class="text-lg mt-4 mb-2 text-azyrite-blue">Related Photos</h2>
+        <p>
+          {
+            relatedPhotoIds.size
+              ? `${relatedPhotoIds.size} related photo(s) found`
+              : "No related photos found :("
+          }
+        </p>
+        {
+          relatedPhotoIds.size > 0 && (
+            <ul class="list-disc ml-4">
+              {Array.from(relatedPhotoIds).map((id) => (
+                <li>
+                  <a class="underline" href={`/gallery/${id}`}>
+                    {id}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+
+        <h2 class="text-lg mt-4 mb-2 text-azyrite-blue">Details</h2>
+        <Describe
+          descriptions={{
+            Photographer: photo.data.sidecar.author.id,
+            Date: `${photoDate?.toString() ?? "No Date Found"} (${photoDate?.toISOString() ?? "No Date Found"})`,
+            "Location (Approximate)":
+              photo.data.sidecar.approxLocation ?? "Unspecified",
+            Edited: (photo.data.sidecar.edited && "Yes") || "No",
+            ID: photo.id,
+          }}
+        />
+
+        <hr class="my-8" />
+
+        <h2 class="text-lg mt-4 mb-2 text-azyrite-blue">Extracted EXIF</h2>
+        {
+          photo.data.exif && (
+            <>
+              <p class="text-sm mb-1">
+                EXIF data found, but it may be incomplete. Coordinates are
+                provided LAT/LON in the format found in EXIF data with no
+                processing apart from truncation to 6 decimal places.
+              </p>
+              <Describe
+                descriptions={{
+                  "Camera Make": photo.data.exif.cameraMake ?? "Unknown",
+                  "Camera Model":
+                    photo.data.exif.cameraModel ?? "Unknown Model",
+                  Aperture: photo.data.exif.aperture
+                    ? `f/${photo.data.exif.aperture}`
+                    : "Unknown",
+                  ISO: photo.data.exif.iso?.toString() ?? "Unknown",
+                  "Exposure Time": photo.data.exif.exposureTime
+                    ? `1/${Math.round(1 / photo.data.exif.exposureTime)}sec`
+                    : "Unknown",
+                  Coordinates:
+                    photo.data.exif.lat && photo.data.exif.lon
+                      ? `${photo.data.exif.lat.toFixed(6)}, ${photo.data.exif.lon.toFixed(6)}`
+                      : "No GPS data found",
+                }}
+              />
+            </>
+          )
+        }
+        {!photo.data.exif && <p class="text-sm">No EXIF data found :(</p>}
+      </div>
     </div>
   </main>
-  <section class="p-4 bg-gray-300 mb-2">
-    <h2 class="text-lg font-bold">Description</h2>
-    <div class="ml-4">
-      <p>{photo.data.meta.detail}</p>
-    </div>
-    {
-      photo.data.meta.notes && (
-        <>
-          <h2 class="text-lg font-bold">Additional Notes</h2>
-          <div class="ml-4">
-            <p>{photo.data.meta.notes}</p>
-          </div>
-        </>
-      )
-    }
-    <h2 class="text-lg font-bold">Tags</h2>
-    <div class="ml-4 flex flex-wrap gap-2 p-2">
-      {photo.data.meta.tags.map((t) => <Tag tag={t.id} />)}
-    </div>
-    <h2 class="text-lg font-bold">Related Photos</h2>
-    <div class="ml-4">
-      <p>
-        {
-          relatedPhotoIds.size
-            ? `${relatedPhotoIds.size} related photo(s) found`
-            : "No related photos found :("
-        }
-      </p>
-      {
-        relatedPhotoIds.size > 0 && (
-          <ul class="list-disc">
-            {Array.from(relatedPhotoIds).map((id) => (
-              <li>
-                <a class="underline" href={`/gallery/${id}`}>
-                  {id}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
-    </div>
-    <h2 class="text-lg font-bold">Photo Details</h2>
-    <div class="ml-4">
-      <p class="text-sm">
-        Notice: Exact hours/minute timings may not be accurate but the date
-        should be correct.
-      </p>
-      <Describe
-        descriptions={{
-          Photographer: photo.data.meta.author.id,
-          Date: `${photoDate?.toString() ?? "No Date Found"} (${photoDate?.toString() ?? "No Date Found"})`,
-          "Location (Approximate)":
-            photo.data.meta.approxLocation ?? "Unspecified",
-          Edited: (photo.data.meta.edited && "Yes") || "No",
-          ID: photo.id,
-        }}
-      />
-    </div>
-    <h2 class="text-lg font-bold">Extracted EXIF</h2>
-    <div class="ml-4">
-      {
-        photo.data.exif && (
-          <>
-            <p class="text-sm">
-              EXIF data found, but it may be incomplete. Coordinates are
-              provided LAT/LON in the format found in EXIF data with no
-              processing apart from truncation to 6 decimal places.
-            </p>
-            <Describe
-              descriptions={{
-                "Camera Make": photo.data.exif.cameraMake ?? "Unknown",
-                "Camera Model": photo.data.exif.cameraModel ?? "Unknown Model",
-                Aperture: photo.data.exif.aperture
-                  ? `f/${photo.data.exif.aperture}`
-                  : "Unknown",
-                ISO: photo.data.exif.iso?.toString() ?? "Unknown",
-                "Exposure Time": photo.data.exif.exposureTime
-                  ? `1/${Math.round(1 / photo.data.exif.exposureTime)}sec`
-                  : "Unknown",
-                Coordinates:
-                  photo.data.exif.lat && photo.data.exif.lon
-                    ? `${photo.data.exif.lat.toFixed(6)}, ${photo.data.exif.lon.toFixed(6)}`
-                    : "No GPS data found",
-              }}
-            />
-          </>
-        )
-      }
-      {!photo.data.exif && <p class="text-sm">No EXIF data found :(</p>}
-    </div>
-  </section>
 </Layout>

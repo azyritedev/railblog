@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { getCollection, getEntry } from "astro:content";
+import { getPhotoSrc } from "src/lib/loader/photos";
 
 // Get posts sorted by recency
 const posts = (await getCollection("posts"))
@@ -10,9 +11,6 @@ const posts = (await getCollection("posts"))
       postb.data.published.getTime() - posta.data.published.getTime()
   )
   .filter((p) => !p.data.draft);
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/content/photos/*.jpg"
-);
 ---
 
 <Layout title="Posts">
@@ -23,16 +21,15 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
     {
       posts.map(async (post) => {
-        // HACK: Cooked way of obtaining photo src
         const photo = post.data.photo && (await getEntry(post.data.photo));
-        const image = photo && images[photo.data.key];
+        const photoSrc = photo && getPhotoSrc(photo.data.path)
         return (
           <div class="p-2 flex flex-col gap-2">
-            {image && (
+            {photoSrc && (
               <a href={`/posts/${post.id}`}>
                 <Image
-                  src={image()}
-                  alt={photo.data.meta.detail}
+                  src={photoSrc}
+                  alt={photo.data.sidecar.detail}
                   layout="constrained"
                 />
               </a>

@@ -48,71 +48,65 @@ const tags = defineCollection({
     })
 })
 
-/**
- * Custom loader for photos with sidecar JSON
- */
-function photoLoader(): Loader {
+function photo2Loader(): Loader {
     return {
-        name: "photo-loader",
+        name: "photo2-loader",
         load: async (ctx) => {
-            ctx.logger.info("Loading photos and sidecar metadata");
+            ctx.logger.info("Loading photos and sidecar metadata")
             ctx.store.clear()
 
-            // must be hardcoded: no dynamic support
-            const photos = Object.fromEntries(Object.entries(import.meta.glob<{ default: ImageMetadata }>("/src/content/photos/*.jpg", { eager: true })).map(([key, value]) => /* drop file ext */[key.slice(0, key.lastIndexOf(".")), value]))
-            const photoNames = Object.keys(photos)
-            // "sidecar" metadata YAML files corresponding to image names. filter by corresponding photo name
-            const photoMetas = Object.fromEntries(Object.entries(import.meta.glob<{ default: Record<string, unknown> }>("/src/content/photos/*.yaml", { eager: true })).filter(([key]) => photoNames.includes(key.slice(0, -5))))
+            const photoPaths = Object.keys(import.meta.glob("/src/content/photos/*.{jpg,jpeg}", { eager: true })).map((filepath) => path.parse(filepath));
+            // Map photo to sidecar file
+            const photoMap = await Promise.all(Object.entries(import.meta.glob<{ default: Record<string, unknown> }>("/src/content/photos/*.{yml,yaml}", { eager: true }))
+                .map(async ([filepath, imported]) => {
+                    const parsed = path.parse(filepath)
+                    // If no matching photo found, skip
+                    const matchingPhoto = photoPaths.find((photoPath) => photoPath.name === parsed.name)
+                    if (!matchingPhoto) return false
 
-            // Resolve photos by calling Promise
-            const resolvedPhotos = Object.fromEntries(await Promise.all(Object.entries(photos).map(async ([key, value]) => {
-                return [
-                    key,
-                    value.default
-                ] as [string, ImageMetadata]
-            })))
+                    // -- PATHS: fsPath for fs, importPath to match against import.meta.glob() 
+                    // HACK: Slice off leading slash for file paths
+                    const fsPath = path.join(matchingPhoto.dir.slice(1), matchingPhoto.base)
+                    const importPath = path.join(matchingPhoto.dir, matchingPhoto.base)
+                    const sidecar = zPhotoSidecar.parse(imported.default)
 
-            for (const [key, data] of Object.entries(photoMetas)) {
-                const objKey = key.slice(0, -5) // key for resolvedPhotos including path
-                const id = objKey.split("/").at(-1) ?? "" // slice off .json, and get last part of path
+                    // Extract and parse EXIF
+                    const exifRaw = await exifr.parse(await fs.readFile(fsPath))
+                    const exif = zExif.parse(exifRaw ? {
+                        cameraMake: exifRaw.Make,
+                        cameraModel: exifRaw.Model,
+                        fNumber: exifRaw.FNumber,
+                        aperture: exifRaw.ApertureValue,
+                        iso: exifRaw.ISO,
+                        exposureTime: exifRaw.ExposureTime,
+                        lat: exifRaw.latitude,
+                        lon: exifRaw.longitude,
+                        date: exifRaw.DateTimeOriginal
+                    } : {})
 
-                const realPath = path.join(import.meta.dirname, "content/photos", id + '.jpg')
-                const bytes = await fs.readFile(realPath);
-                const exif = await exifr.parse(bytes)
+                    return {
+                        id: matchingPhoto.name,
+                        path: importPath,
+                        sidecar,
+                        exif
+                    }
+                }))
+                .then(
+                    // filter falsy
+                    (ret) => ret.filter((v) => !!v) // doublebang required for TS
+                )
 
-                const photo = resolvedPhotos[objKey]
-                const toWrite = await ctx.parseData({
-                    id,
-                    data: {
-                        meta: data.default,
-                        photo,
-                        exif: exif ? {
-                            cameraMake: exif.Make,
-                            cameraModel: exif.Model,
-                            fNumber: exif.FNumber,
-                            aperture: exif.ApertureValue,
-                            iso: exif.ISO,
-                            exposureTime: exif.ExposureTime,
-                            lat: exif.latitude,
-                            lon: exif.longitude,
-                            date: exif.DateTimeOriginal
-                        } : {}, // empty object = no exif
-                        key: objKey + ".jpg",
-                    },
-                });
 
+            // Add to store
+            for (const photo of photoMap) {
                 ctx.store.set({
-                    id, data: toWrite,
-                })
+                    id: photo.id,
+                    data: photo,
+                });
             }
         }
     }
 }
-
-// A loose representation of the ImageMetadata type for Zod
-const zImageMetadata = z.object({
-    // empty object
-}).passthrough().transform(val => val as ImageMetadata) // force to correct type
 
 // Some EXIF image data (partial obj)
 const zExif = z.object({
@@ -128,7 +122,7 @@ const zExif = z.object({
 }).partial()
 
 // The meta sidecar file (YAML) properties
-const zPhotoMeta = z.object({
+const zPhotoSidecar = z.object({
     title: z.string(),
     detail: z.string(), // also alt text
     tags: z.array(reference('tags')),
@@ -142,13 +136,12 @@ const zPhotoMeta = z.object({
 })
 
 const photos = defineCollection({
-    loader: photoLoader(),
+    loader: photo2Loader(),
     // tied with photoLoader() -- do not edit without modifying function!
     schema: z.object({
-        photo: zImageMetadata, // ImageMetadata
-        meta: zPhotoMeta,
+        path: z.string(), // Path to photo
+        sidecar: zPhotoSidecar,
         exif: zExif,
-        key: z.string()
     })
 })
 

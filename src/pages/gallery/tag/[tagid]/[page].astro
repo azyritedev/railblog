@@ -1,17 +1,17 @@
 ---
+import type { GetStaticPaths } from "astro";
+import PhotoGrid from "@/components/PhotoGrid.astro";
 import Tag from "@/components/Tag.astro";
 import Layout from "@/layouts/Layout.astro";
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
-export async function getStaticPaths({ paginate }: { paginate: Function }) {
+export const getStaticPaths = (async ({ paginate }) => {
   const tags = await getCollection("tags");
   const photos = await getCollection("photos");
   return tags.flatMap((t) => {
     const filteredPhotos = photos.filter((p) =>
-      p.data.meta.tags.some((pt) => pt.id === t.id)
+      p.data.sidecar.tags.some((pt) => pt.id === t.id)
     );
 
     return paginate(filteredPhotos, {
@@ -19,18 +19,12 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
       pageSize: 16,
     });
   });
-}
+}) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
 const params = Astro.params;
 
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/content/photos/*.jpg"
-);
-
 const tag = await getEntry("tags", params.tagid);
-
-type PhotoEntry = CollectionEntry<"photos">;
 ---
 
 <Layout title={params.tagid} description={`Viewing the ${params.tagid} tag`}>
@@ -45,39 +39,7 @@ type PhotoEntry = CollectionEntry<"photos">;
       page.end + 1
     } of {page.total} photos)
   </small>
-  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
-    {
-      page.data.map((photo: PhotoEntry) => {
-        return (
-          <div class="bg-gray-300 p-4 flex flex-col gap-2">
-            <a
-              href={`/gallery/${photo.id}`}
-              class="block hover:underline font-bold text-center"
-            >
-              <Image
-                layout="constrained"
-                src={images[photo.data.key]!()}
-                alt={photo.data.meta.detail}
-              />
-            </a>
-            <div>
-              <a
-                href={`/gallery/${photo.id}`}
-                class="block hover:underline font-bold text-center"
-              >
-                {photo.data.meta.title}
-              </a>
-            </div>
-            <div class="flex gap-2 justify-center">
-              {photo.data.meta.tags.map((t) => (
-                <Tag tag={t.id} />
-              ))}
-            </div>
-          </div>
-        );
-      })
-    }
-  </div>
+  <PhotoGrid filterFn={(photo) => page.data.some((p) => p.id === photo.id)} />
   <div class="bg-gray-300 p-4 text-lg mt-4 flex justify-center gap-2">
     <div>
       <span>Page:</span>
