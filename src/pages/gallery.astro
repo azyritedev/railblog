@@ -28,22 +28,25 @@ for (const tag of tags) {
 ---
 
 <Layout title="Photo Gallery" description="View a listing of all photo tags">
+  <h1 class="font-bold text-3xl mb-2">Photo Gallery</h1>
   <div class="prose">
-    <h1>Photo Gallery</h1>
     <p>
       <b>A quick organisational note:</b> Photos are grouped with tags; a photo may
       have multiple tags so may appear in multiple places. There are no "albums".
     </p>
     <p>
-      I have tried to give a detailed description for each photo, although these
-      are not searchable yet. This might become a feature in the future.
-    </p>
-    <p>
       There are a total of <b>{photos.length}</b> unique photos in the gallery. More
       on the way!
     </p>
-    <p><b>You can now view all photos</b> <a href="/gallery/all/1">here</a>!</p>
     <p><i>Click on any tag below to go to its page and view its photos.</i></p>
+  </div>
+  <div class="mt-4">
+    <a
+      href="/gallery/all/1"
+      class="inline-block hover:underline p-4 font-bold bg-azyrite-blue text-white"
+    >
+      View all photos
+    </a>
   </div>
   <div class="mt-4">
     <h2 class="text-xl font-bold">Grouped Tags</h2>
