@@ -2,7 +2,8 @@
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 
-import bskyLogo from "@/assets/bsky_logo.svg";
+import bskyLogo from "@/assets/bsky_logo.png";
+import instagramLogo from "@/assets/instagram_logo.png";
 ---
 
 <Layout title="About" description="About azyrite's rail blog">
@@ -64,19 +65,33 @@ import bskyLogo from "@/assets/bsky_logo.svg";
       </p>
       <h2>Contact</h2>
       <p>You can find me on social media:</p>
-      <ul>
+      <ul class="not-prose ml-8 text-lg">
         <li>
           <a
             href="https://bsky.app/profile/azyrite.bsky.social"
-            class="inline-flex gap-2 items-center text-[#1185fe] not-prose"
+            class="inline-flex gap-2 items-center underline text-[#1185fe]"
           >
             <Image
               src={bskyLogo}
               alt="Bluesky logo"
-              class="w-5"
+              class="w-6"
               loading="eager"
             />
             <span class="block">azyrite.bsky.social</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.instagram.com/azyrite.photo/"
+            class="inline-flex gap-2 items-center underline bg-clip-text bg-linear-to-tr from-[#FFDC80] to-[#833AB4]"
+          >
+            <Image
+              src={instagramLogo}
+              alt="Instagram logo"
+              class="w-6"
+              loading="eager"
+            />
+            <span class="block">azyrite.photo</span>
           </a>
         </li>
       </ul>
