@@ -37,7 +37,7 @@ const { page } = Astro.props;
           {i + 1 === page.currentPage ? (
             <span>{page.currentPage}</span>
           ) : (
-            <a href={`${i + 1}`} class="underline">
+            <a href={`/gallery/all/${i + 1}`} class="underline">
               {" "}
               {i + 1}
             </a>

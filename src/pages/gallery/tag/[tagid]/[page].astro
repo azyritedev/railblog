@@ -51,7 +51,7 @@ const tag = await getEntry("tags", params.tagid);
           {i + 1 === page.currentPage ? (
             <span>{page.currentPage}</span>
           ) : (
-            <a href={`${i + 1}`} class="underline">
+            <a href={`/gallery/tag/${params.tagid}/${i + 1}`} class="underline">
               {" "}
               {i + 1}
             </a>
