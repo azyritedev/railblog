@@ -92,6 +92,10 @@
     "description": "Electric multiple unit intercity and now soon to be suburban 'OSCAR' (Outer Suburban Car) trains",
     "group": "Train Set"
   },
+  "xplorer-set": {
+    "description": "Regional diesel multiple unit Xplorer trains running relatively shorter regional routes.",
+    "group": "Train Set"
+  },
   "xpt-set": {
     "description": "Regional eXpress Passenger Trains, hauled rather than being multiple units",
     "group": "Train Set"
