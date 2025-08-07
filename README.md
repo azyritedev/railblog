@@ -20,10 +20,13 @@ Currently, photos are just stored in `src/content/photos` alongside their YAML
 extension instead of `.jpg`. These sidecar files contain metadata about the photo
 including the author, description, title, etc.
 
-The extension **must be exactly** `.jpg` for photos (case sensitive) and `.yaml`
+~~The extension **must be exactly** `.jpg` for photos (case sensitive) and `.yaml`
 for sidecar files due to the way these files are handled (admittedly in a hacky 
 way). This should be alleviated in the future although that might not come before
-photos are moved onto a proper object storage solution such as B2 or S3.
+photos are moved onto a proper object storage solution such as B2 or S3.~~
+
+Update: The above restriction has been **lifted**, as a result of refactoring how
+photos are imported and handled.
 
 Photos currently are not updated at runtime, and are "built" into the final `dist/`
 bundle at compile/build time.
