@@ -75,10 +75,10 @@ function photo2Loader(): Loader {
                     const exif = zExif.parse(exifRaw ? {
                         cameraMake: exifRaw.Make,
                         cameraModel: exifRaw.Model,
-                        fNumber: exifRaw.FNumber,
-                        aperture: exifRaw.ApertureValue,
-                        iso: exifRaw.ISO,
-                        exposureTime: exifRaw.ExposureTime,
+                        fNumber: exifRaw.FNumber || 0,
+                        aperture: exifRaw.ApertureValue || 0,
+                        iso: exifRaw.ISO || 0,
+                        exposureTime: exifRaw.ExposureTime || 0,
                         lat: exifRaw.latitude,
                         lon: exifRaw.longitude,
                         date: exifRaw.DateTimeOriginal
@@ -88,7 +88,7 @@ function photo2Loader(): Loader {
                         id: matchingPhoto.name,
                         path: importPath,
                         sidecar,
-                        exif
+                        exif: exif
                     }
                 }))
                 .then(
