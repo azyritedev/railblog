@@ -22,28 +22,32 @@ const { Content } = await render(post);
 ---
 
 <Layout title={post.data.title} description={post.data.blurb}>
-  <article class="prose">
-    <header>
-      <h1>{post.data.title}</h1>
-      {photoSrc &&
-          <figure>
-            <Picture alt={photo.data.sidecar.detail} src={photoSrc} />
-            <figcaption>
-              {photo.data.sidecar.title} —{" "}
-              <a href={`/gallery/${photo.id}`}>View image in gallery</a>
-            </figcaption>
-          </figure>
-          }
-      <p>
-        <b>Published</b>
-        <time datetime={post.data.published.toISOString()}
-          >{post.data.published.toISOString().slice(0, 10)}</time
-        >
-        <br />
-        <b>By</b>
-        {post.data.author.id}
-      </p>
-    </header>
-    <Content />
-  </article>
+  <div class="flex justify-center">
+    <article class="prose lg:prose-lg">
+      <header>
+        <h1>{post.data.title}</h1>
+        {
+          photoSrc && (
+            <figure>
+              <Picture alt={photo.data.sidecar.detail} src={photoSrc} />
+              <figcaption>
+                {photo.data.sidecar.title} —{" "}
+                <a href={`/gallery/${photo.id}`}>View image in gallery</a>
+              </figcaption>
+            </figure>
+          )
+        }
+        <p>
+          <b>Published</b>
+          <time datetime={post.data.published.toISOString()}
+            >{post.data.published.toISOString().slice(0, 10)}</time
+          >
+          <br />
+          <b>By</b>
+          {post.data.author.id}
+        </p>
+      </header>
+      <Content />
+    </article>
+  </div>
 </Layout>
