@@ -62,8 +62,10 @@ const photoDate = photo.data.sidecar.date ?? photo.data.exif.date;
           src={photoSrc}
           formats={["jpg", "webp"]}
           loading="eager"
-          layout="full-width"
+          layout="constrained"
+          fit="scale-down"
           fetchpriority="high"
+          class="object-scale-down max-h-screen"
         />
       </div>
       <p class="text-center">
