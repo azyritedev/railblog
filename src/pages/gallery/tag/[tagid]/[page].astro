@@ -39,8 +39,10 @@ const tag = await getEntry("tags", params.tagid);
       page.end + 1
     } of {page.total} photos)
   </small>
-  <PhotoGrid filterFn={(photo) => page.data.some((p) => p.id === photo.id)} />
-    <div class="bg-gray-300 p-4 text-lg mt-4 flex justify-center gap-2">
+  <div class="mt-4">
+    <PhotoGrid filterFn={(photo) => page.data.some((p) => p.id === photo.id)} />
+  </div>
+  <div class="bg-gray-300 p-4 text-lg mt-4 flex justify-center gap-2">
     <div class="inline-flex items-center gap-2">
       {
         new Array(page.lastPage).fill(null).map((_, i) => (
