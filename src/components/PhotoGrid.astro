@@ -17,12 +17,13 @@ const allPhotos = await getCollection("photos", props.filterFn);
 interface Props {
   // Custom function to filter photos
   filterFn?: (photos: Entry) => Promise<boolean> | boolean;
+  hideInfos?: boolean
 }
 ---
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
   {
     allPhotos.map((photo) => (
-      <div class="bg-gray-300 flex w-full break-inside-avoid-column flex-col gap-2 pb-4">
+      <div class={`bg-gray-300 flex w-full break-inside-avoid-column flex-col gap-2 ${!props.hideInfos && "pb-4"}`}>
         <a
           href={`/gallery/${photo.id}`}
           class="block hover:underline font-bold text-center"
@@ -33,7 +34,7 @@ interface Props {
             alt={photo.data.sidecar.detail}
           />
         </a>
-
+        {!props.hideInfos &&
         <div class="p-2">
           <a
             href={`/gallery/${photo.id}`}
@@ -47,6 +48,7 @@ interface Props {
             <Tag tag={t.id} />
           ))}
         </div>
+        }
       </div>
     ))
   }

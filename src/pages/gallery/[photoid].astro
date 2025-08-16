@@ -6,6 +6,7 @@ import Describe from "@/components/Describe.astro";
 import Tag from "@/components/Tag.astro";
 import { getImage } from "astro:assets";
 import { getPhotoSrc } from "src/lib/loader/photos";
+import { getEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const photos = await getCollection("photos");
@@ -41,6 +42,8 @@ for (const related of backLinkRelatedPhotos) {
 }
 
 const photoDate = photo.data.sidecar.date ?? photo.data.exif.date;
+
+const author = await getEntry(photo.data.sidecar.author);
 ---
 
 <Layout
@@ -120,10 +123,12 @@ const photoDate = photo.data.sidecar.date ?? photo.data.exif.date;
           )
         }
 
+        <h2 class="text-lg mt-4 mb-2 text-azyrite-blue">Photographer</h2>
+        <p><a class="underline" href={`/authors/${author.id}`}>{author.data.displayName}</a></p>
+
         <h2 class="text-lg mt-4 mb-2 text-azyrite-blue">Details</h2>
         <Describe
           descriptions={{
-            Photographer: photo.data.sidecar.author.id,
             Date: `${photoDate?.toString() ?? "No Date Found"} (${photoDate?.toISOString() ?? "No Date Found"})`,
             "Location (Approximate)":
               photo.data.sidecar.approxLocation ?? "Unspecified",

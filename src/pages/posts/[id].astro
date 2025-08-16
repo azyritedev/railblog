@@ -16,6 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const author = await getEntry(post.data.author);
 const photo = post.data.photo && (await getEntry(post.data.photo));
 const photoSrc = photo && getPhotoSrc(photo.data.path);
 const { Content } = await render(post);
@@ -44,7 +45,7 @@ const { Content } = await render(post);
           >
           <br />
           <b>By</b>
-          {post.data.author.id}
+          <a href={`/authors/${post.data.author.id}`}>{author.data.displayName}</a>
         </p>
       </header>
       <Content />

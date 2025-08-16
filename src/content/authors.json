@@ -1,6 +1,15 @@
 {
-    "azyrite": {
-        "displayName": "azyrite",
-        "email": "azyrite@astrial.org"
-    }
+  "azyrite": {
+    "displayName": "azyrite",
+    "email": "azyrite-railblog@astrial.org",
+    "featuredPhotos": [
+      "16x10_MG_5342",
+      "clocktower",
+      "5x7_MG_5641",
+      "PXL_20250715_073559465",
+      "PXL_20250803_043030110",
+      "_MG_5756",
+      "_MG_5763"
+    ]
+  }
 }

@@ -12,7 +12,8 @@ const authors = defineCollection({
     loader: file("./src/content/authors.json"),
     schema: z.object({
         displayName: z.string(),
-        email: z.string().optional()
+        email: z.string().optional(),
+        featuredPhotos: reference('photos').array().default([])
     })
 })
 
