@@ -7,99 +7,101 @@ import instagramLogo from "@/assets/instagram_logo.png";
 ---
 
 <Layout title="About" description="About azyrite's rail blog">
-  <div class="prose">
-    <h1>About & Contact</h1>
-    <p>
-      Welcome to my little corner of the internet where I occasionally put up
-      railway-related photos and posts, mostly from my home state of NSW.
-    </p>
-    <p>
-      I&apos;ve had an interest in trains for some time, although I only started
-      properly photographing them in early 2025, when a friend kindly lent me
-      their camera and I discovered the joys of photography.
-    </p>
-    <h2>Technical details</h2>
-    <p>
-      This is a simple, (mostly) statically generated site powered by <a
-        href="https://astro.build"
-        target="_blank">{Astro.generator}</a
-      >. The code is open source for those who want to take a gander: <a
-        href="https://github.com/azyritedev/railblog"
-        target="_blank">GitHub</a
-      >.
-    </p>
-    <p>
+  <div class="flex justify-center">
+    <div class="prose lg:prose-lg">
+      <h1>About & Contact</h1>
       <p>
-        TailwindCSS is used for styling because I can't actually write CSS
-        anymore.
-      </p>
-      <h2>A note on photos</h2>
-      <p>
-        Images have been rendered in JPEG format (from RAW camera files), and
-        may have been compressed. Images may also be presented in WEBP but a
-        JPEG photo should always be accessible.
+        Welcome to my little corner of the internet where I occasionally put up
+        railway-related photos and posts, mostly from my home state of NSW.
       </p>
       <p>
-        Some care has been taken to preserve any EXIF data attached to the
-        images particularly of those images captured on a phone (which usually
-        contains useful geolocation data). However, this is not guaranteed,
-        especially with edited photos.
+        I&apos;ve had an interest in trains for some time, although I only
+        started properly photographing them in early 2025, when a friend kindly
+        lent me their camera and I discovered the joys of photography.
+      </p>
+      <h2>Technical details</h2>
+      <p>
+        This is a simple, (mostly) statically generated site powered by <a
+          href="https://astro.build"
+          target="_blank">{Astro.generator}</a
+        >. The code is open source for those who want to take a gander: <a
+          href="https://github.com/azyritedev/railblog"
+          target="_blank">GitHub</a
+        >.
       </p>
       <p>
-        If you are after the RAW photos, I might have them lying around
-        somewhere. Send me an email and I'll try my best to get back to you.
-      </p>
-      <h2>Attributions</h2>
-      <p>
-        Much of the inspiration for this website including its general layout,
-        theming and style was taken from <a
-          href="https://railgallery.wongm.com/"
-          target="_blank">Wongm's Rail Gallery</a
-        >. Go check out his site, there's a lot more there!
-      </p>
-      <p>
-        All photographs and posts are my own unless otherwise indicated. If you
-        would like to use these photos for your own purposes <b
-          >please send me an email beforehand.</b
-        > I'd love to see what you do with them!
-      </p>
-      <h2>Contact</h2>
-      <p>You can find me on social media:</p>
-      <ul class="not-prose ml-8 text-lg">
-        <li>
-          <a
-            href="https://bsky.app/profile/azyrite.bsky.social"
-            class="inline-flex gap-2 items-center underline text-[#1185fe]"
+        <p>
+          TailwindCSS is used for styling because I can't actually write CSS
+          anymore.
+        </p>
+        <h2>A note on photos</h2>
+        <p>
+          Images have been rendered in JPEG format (from RAW camera files), and
+          may have been compressed. Images may also be presented in WEBP but a
+          JPEG photo should always be accessible.
+        </p>
+        <p>
+          Some care has been taken to preserve any EXIF data attached to the
+          images particularly of those images captured on a phone (which usually
+          contains useful geolocation data). However, this is not guaranteed,
+          especially with edited photos.
+        </p>
+        <p>
+          If you are after the RAW photos, I might have them lying around
+          somewhere. Send me an email and I'll try my best to get back to you.
+        </p>
+        <h2>Attributions</h2>
+        <p>
+          Much of the inspiration for this website including its general layout,
+          theming and style was taken from <a
+            href="https://railgallery.wongm.com/"
+            target="_blank">Wongm's Rail Gallery</a
+          >. Go check out his site, there's a lot more there!
+        </p>
+        <p>
+          All photographs and posts are my own unless otherwise indicated. If
+          you would like to use these photos for your own purposes <b
+            >please send me an email beforehand.</b
+          > I'd love to see what you do with them!
+        </p>
+        <h2>Contact</h2>
+        <p>You can find me on social media:</p>
+        <ul class="not-prose ml-8 text-lg">
+          <li>
+            <a
+              href="https://bsky.app/profile/azyrite.bsky.social"
+              class="inline-flex gap-2 items-center underline text-[#1185fe]"
+            >
+              <Image
+                src={bskyLogo}
+                alt="Bluesky logo"
+                class="w-6"
+                loading="eager"
+              />
+              <span class="block">azyrite.bsky.social</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.instagram.com/azyrite.photo/"
+              class="inline-flex gap-2 items-center underline bg-clip-text bg-linear-to-tr from-[#FFDC80] to-[#833AB4]"
+            >
+              <Image
+                src={instagramLogo}
+                alt="Instagram logo"
+                class="w-6"
+                loading="eager"
+              />
+              <span class="block">azyrite.photo</span>
+            </a>
+          </li>
+        </ul>
+        <p>
+          Or email me: <a href="mailto:azyrite-railblog@astrial.org"
+            >azyrite-railblog@astrial.org</a
           >
-            <Image
-              src={bskyLogo}
-              alt="Bluesky logo"
-              class="w-6"
-              loading="eager"
-            />
-            <span class="block">azyrite.bsky.social</span>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/azyrite.photo/"
-            class="inline-flex gap-2 items-center underline bg-clip-text bg-linear-to-tr from-[#FFDC80] to-[#833AB4]"
-          >
-            <Image
-              src={instagramLogo}
-              alt="Instagram logo"
-              class="w-6"
-              loading="eager"
-            />
-            <span class="block">azyrite.photo</span>
-          </a>
-        </li>
-      </ul>
-      <p>
-        Or email me: <a href="mailto:azyrite-railblog@astrial.org"
-          >azyrite-railblog@astrial.org</a
-        >
+        </p>
       </p>
-    </p>
+    </div>
   </div>
 </Layout>
