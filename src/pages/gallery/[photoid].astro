@@ -132,7 +132,7 @@ const author = await getEntry(photo.data.sidecar.author);
             Date: `${photoDate?.toString() ?? "No Date Found"} (${photoDate?.toISOString() ?? "No Date Found"})`,
             "Location (Approximate)":
               photo.data.sidecar.approxLocation ?? "Unspecified",
-            Edited: (photo.data.sidecar.edited && "Yes") || "No",
+            "Externally Edited": (photo.data.sidecar.edited && "Yes") || "No",
             ID: photo.id,
           }}
         />
