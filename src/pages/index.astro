@@ -1,42 +1,69 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import featuredImage from "../content/photos/5x7_MG_5641.jpg";
+import galleryImage from "../content/photos/5x7_MG_5641.jpg";
+import galleryAllImage from "../content/photos/_MG_5731.jpg";
+import aboutImage from "../content/photos/_MG_5763.jpg";
+import heroImage from "../content/photos/16x10_MG_5342.jpg";
 import { Image } from "astro:assets";
 ---
 
 <Layout title="Home">
-  <div class="prose mb-4">
-    <h1>Welcome to azyrite's rail blog!</h1>
-    <p>
-      Hello there! Welcome to my rail blog and gallery. <b
-        >This site is still very much a work in progress!</b
-      > If you're looking for the photos, check out the <a href="/gallery"
-        >gallery</a
-      >.
-    </p>
-    <hr />
+  <!-- Hero -->
+  <div class="-mx-4 relative">
+    <Image
+      src={heroImage}
+      priority
+      alt=""
+      class="h-[65vh] object-cover brightness-50"
+    />
+    <div class="absolute left-8 bottom-8">
+      <h1 class="text-7xl lg:text-8xl font-black text-white">
+        azyrite's rail blog
+      </h1>
+    </div>
   </div>
-  <div>
-    <a
-      href="/gallery/all/1"
-      class="inline-block hover:underline p-4 font-bold bg-azyrite-blue text-white"
+
+  <div
+    class="container mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 mt-8"
+  >
+    <a href="/gallery">
+      <div class="relative h-full">
+        <Image
+          src={galleryImage}
+          loading="eager"
+          alt=""
+          class="object-cover brightness-50"
+        />
+        <div class="absolute right-4 bottom-4">
+          <h2 class="text-2xl font-bold text-white">Gallery</h2>
+        </div>
+      </div></a
     >
-      View all photos
-    </a>
-  </div>
-  <div class="prose mt-4">
-    <hr />
-    <p>Here's a cool image I got recently:</p>
-    <figure>
-      <Image
-        src={featuredImage}
-        layout="constrained"
-        alt="The featured image"
-        loading="eager"
-        width={700}
-        height={500}
-      />
-      <figcaption>Featured Image — B set at Penrith on the down</figcaption>
-    </figure>
+    <a href="/gallery/all/1">
+      <div class="relative h-full">
+        <Image
+          src={galleryAllImage}
+          alt=""
+          loading="eager"
+          class="object-cover h-full brightness-50"
+        />
+        <div class="absolute right-4 bottom-4">
+          <h2 class="text-2xl font-bold text-white">All Images</h2>
+        </div>
+      </div></a
+    >
+    <a href="/about">
+      <div class="relative h-full">
+        <Image
+          src={aboutImage}
+          alt=""
+          loading="eager"
+          class="h-full object-cover brightness-50"
+        />
+        <div class="absolute right-4 bottom-4">
+          <h2 class="text-2xl font-bold text-white">About & Contact</h2>
+        </div>
+      </div></a
+    >
   </div>
 </Layout>
