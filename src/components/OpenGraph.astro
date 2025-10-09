@@ -7,7 +7,7 @@ interface Props {
   imagePath: string;
 }
 
-const props = Astro.props;
+const { props } = Astro
 ---
 
 <meta property="og:title" content={props.title} />

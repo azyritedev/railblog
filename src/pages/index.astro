@@ -29,7 +29,10 @@ import { Image } from "astro:assets";
   <div
     class="container mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 mt-8"
   >
-    <a href="/gallery">
+    <a
+      href="/gallery"
+      class="hover:opacity-75 transition-opacity ease-out duration-150"
+    >
       <div class="relative h-full">
         <Image
           src={galleryImage}
@@ -42,7 +45,10 @@ import { Image } from "astro:assets";
         </div>
       </div></a
     >
-    <a href="/gallery/all/1">
+    <a
+      href="/gallery/all/1"
+      class="hover:opacity-75 transition-opacity ease-out duration-150"
+    >
       <div class="relative h-full">
         <Image
           src={galleryAllImage}
@@ -55,7 +61,10 @@ import { Image } from "astro:assets";
         </div>
       </div></a
     >
-    <a href="/about">
+    <a
+      href="/about"
+      class="hover:opacity-75 transition-opacity ease-out duration-150"
+    >
       <div class="relative h-full">
         <Image
           src={aboutImage}
